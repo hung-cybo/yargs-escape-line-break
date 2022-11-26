@@ -8,7 +8,7 @@ minimal reproduction of https://github.com/yargs/yargs/issues/2268 .
 
 ## Summary
 
-When we generate the completion script for zsh, with the description of option has line break, the completion shown is incorrect.
+When we generate the completion script for zsh, with the description of option having line break, the completion shown is incorrect.
 
 ```shell
 --bar          -- Bar option
@@ -79,7 +79,7 @@ The line break should be converted to whitespace.
 
 The actual output is the following.
 
-The description of `--foo` option are displayed at the end of output.
+The description of `--foo` option is displayed at the end of the output.
 
 ```shell
 ./cli.js completion #Strike TAB
@@ -93,8 +93,8 @@ Should be aligned with foo option  The description for foo option
 
 ## Cause
 
-When requesting a completion with striking the **TAB** key, completion function calls the original file with `--get-yargs-completions` option.
-It is specified in completion script as follows.
+When requesting a completion by striking the **TAB** key, the completion function calls the original file with `--get-yargs-completions` option.
+It is specified in the completion script as follows.
 
 ```shell
 _cli.js_yargs_completions()
@@ -109,7 +109,7 @@ _cli.js_yargs_completions()
 compdef _cli.js_yargs_completions cli.js
 ```
 
-With current version of yargs, the output is the following.
+With the current version of yargs, the output is the following.
 
 ```shell
 $ node ./lib/index.js --get-yargs-completions -
@@ -121,11 +121,13 @@ Should be aligned with foo option
 --help:Show help
 ```
 
-The description of `--foo` option is displayed in multi lines.
+The description of `--foo` option is displayed in multi-lines.
 
-And with the current behavior of zsh-completion, each lines will be evaluated:
+And with the current behavior of zsh-completion, each line will be evaluated:
 - If It meets the format `key:desc` => mark it as an option
 - If It does not meet the format `key:desc` => move it to the bottom
+
+That's why the description of `--foo` option is displayed incorrectly.
 
 ## Lisence
 
